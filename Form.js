@@ -1,20 +1,20 @@
-const form = document.getElementById('form');
-const username = document.getElementById('username');
-const age = document.getElementById('age');
-const email = document.getElementById('email');
-const password = document.getElementById('password');
-const password2 = document.getElementById('password2');
+const form = document.getElementById('form')
+const username = document.getElementById('username')
+const age = document.getElementById('age')
+const email = document.getElementById('email')
+const password = document.getElementById('password')
+const password2 = document.getElementById('password2')
 
 function showError(input,message){
     const formControl = input.parentElement;
-    formControl.className = 'form-control error';
-    const small = formControl.querySelector('small');
-    small.innerText = message;
+    formControl.className = 'form-control error'
+    const small = formControl.querySelector('small')
+    small.innerText = message
 }
 
 function showSuccess(input){
     const formControl = input.parentElement;
-    formControl.className = 'form-control success';
+    formControl.className = 'form-control success'
     
 }
 
@@ -26,19 +26,19 @@ function checkPasswordMatch(input1, input2){
 }
 // check email is valid
 function isValidEmail(email){
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     if(re.test(String(email.value).toLowerCase())){
-       showSuccess(email);
+       showSuccess(email)
     }else{
-        showError(email,'Email is not valid');
+        showError(email,'Email is not valid')
     }
     
 }
  // check age
  function checkAge(input){
-    if(input.value<18){
+    if(input.value<18||input.value>110){
         console.log(input.value)
-        showError(input, '18+')
+        showError(input, 'Age must be between 18-110')
     }else{
         console.log(input.value)
         showSuccess(input)
@@ -52,7 +52,7 @@ function checkRequired(inputArr){
        if(input.value.trim() === ''){
            showError(input,`${getFieldName(input)} is required`)
        }else{
-           showSuccess(input);
+           showSuccess(input)
        }
   });
 }
@@ -70,19 +70,19 @@ function checkRequired(inputArr){
      }else if(input.value.length>max){
         showError(input,`${getFieldName(input)} must not exceed ${max} characters`)
      }else{
-         showSuccess(input);
+         showSuccess(input)
      }
  }
 
 // Event Listeners
 form.addEventListener('submit',(e)=>{
-    e.preventDefault();
+    e.preventDefault()
    
-    checkRequired([username,age,email,password,password2]);
-     checkLength(username,3, 15);
-     checkLength(password,8, 25);
-     isValidEmail(email);
-     checkAge(age);
-     checkPasswordMatch(password,password2);
+    checkRequired([username,age,email,password,password2])
+     checkLength(username,3, 15)
+     checkLength(password,8, 25)
+     isValidEmail(email)
+     checkAge(age)
+     checkPasswordMatch(password,password2)
 });
 
