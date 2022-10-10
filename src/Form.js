@@ -50,9 +50,11 @@ function isValidEmail(email){
 function checkRequired(inputArr){
   inputArr.forEach(input => {
        if(input.value.trim() === ''){
-           showError(input,`${getFieldName(input)} is required`)
-       }else{
-           showSuccess(input)
+            showError(input,`${getFieldName(input)} is required`)
+
+            if(getFieldName(input) == "Password2"){
+                showError(input,`Confirm password is required`)
+            }
        }
   });
 }
@@ -78,11 +80,12 @@ function checkRequired(inputArr){
 form.addEventListener('submit',(e)=>{
     e.preventDefault()
    
-    checkRequired([username,age,email,password,password2])
+    
      checkLength(username,3, 15)
      checkLength(password,8, 25)
      isValidEmail(email)
      checkAge(age)
      checkPasswordMatch(password,password2)
+     checkRequired([username,age,email,password,password2])
 });
 

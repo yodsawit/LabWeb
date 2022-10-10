@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="../src/css/appointment.css">
+
+<!-- Trigger/Open The Modal -->
+<button id="myBtn">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div>
+            <form id="form" class="form">
+                <h2>Appointment</h2>
+    
+                <div class="form-control">
+                    <label for="date">Date<span>*</span></label>
+                    <input type="date" id="date">
+                    <small>Error Message</small>
+                </div>
+    
+                <div class="form-control">
+                    <label for="time">Time<span>*</span></label>
+                    <input type="time" id="time">
+                    <small>Error Message</small>
+                </div>
+    
+                <div class="form-control">
+                    <label for="title">Title<span>*</span></label>
+                    <input type="text" id="title" placeholder="Enter title">
+                    <small>Error Message</small>
+                </div>
+                
+                <div class="form-control">
+                    <label for="description">Description</label>
+                    <input type="description" id="description" placeholder="Enter description">
+                    <small>Error Message</small>
+                </div>
+    
+                <button>Submit</button>
+            </form>
+        </div>
+    </div>
+
+  <script src="../src/appointment.js"></script>
