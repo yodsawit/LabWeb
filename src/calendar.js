@@ -1,5 +1,7 @@
 // Call this from the developer console and you can control both instances
 var calendars = {};
+var thisMonth = moment().format('YYYY-MM');
+var eventArray
 
 $(document).ready( function() {
     console.info(
@@ -11,22 +13,106 @@ $(document).ready( function() {
     // moment.locale('ru');
 
     // Here's some magic to make sure the dates are happening this month.
-    var thisMonth = moment().format('YYYY-MM');
+    // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+const form = document.getElementById('form')
+const date = document.getElementById('date')
+const time = document.getElementById('time')
+const title = document.getElementById('title')
+const description = document.getElementById('description')
+
+function showError(input,message){
+    const formControl = input.parentElement;
+    formControl.className = 'form-control error'
+    const small = formControl.querySelector('small')
+    small.innerText = message
+}
+
+function showSuccess(input){
+    const formControl = input.parentElement;
+    formControl.className = 'form-control success'
+    
+}
+
+// check required field
+function checkRequired(inputArr){
+  inputArr.forEach(input => {
+       if(input.value.trim() === ''){
+           showError(input,`${getFieldName(input)} is required`)
+           return false;
+       }else{
+           showSuccess(input)
+       }
+  });
+}
+
+// Get field Name
+ function getFieldName(input){
+  return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+ }
+
+
+ // check input length
+ function checkLength(input,min,max){
+     if(input.value.length<min){
+         showError(input,`${getFieldName(input)} must be atleast ${min} characters`)
+         return false;
+     }else if(input.value.length>max){
+        showError(input,`${getFieldName(input)} must not exceed ${max} characters`)
+        return false;
+     }else{
+         showSuccess(input)
+     }
+ }
+
+// Event Listeners
+form.addEventListener('submit',(e)=>{
+    
+    var valid = true
+    valid = checkRequired([date,time,title])
+    if(valid !== false)
+        valid = checkLength(title,1, 15)
+        if(valid !== false)
+            valid = checkLength(description,0, 30)
+            if(valid !== false)
+            eventArray = [
+                {
+                    date: date.value,
+                    title: title.value
+                }
+            ];
+            console.log(eventArray)
+            e.preventDefault()
+});
+    
     // Events to load into calendar
-    var eventArray = [
-        // {
-        //     title: 'Multi-Day Event',
-        //     endDate: thisMonth + '-14',
-        //     startDate: thisMonth + '-10'
-        // }, {
-        //     endDate: thisMonth + '-23',
-        //     startDate: thisMonth + '-21',
-        //     title: 'Another Multi-Day Event'
-        // }, {
-        //     date: thisMonth + '-27',
-        //     title: 'Single Day Event'
-        // }
-    ];
+    
+    console.log(eventArray)
+
 
     // The order of the click handlers is predictable. Direct click action
     // callbacks come first: click, nextMonth, previousMonth, nextYear,
@@ -47,6 +133,7 @@ $(document).ready( function() {
             },
             previousMonth: function () {
                 console.log('Cal-1 previous month');
+                console.log(eventArray);
             },
             onMonthChange: function () {
                 console.log('Cal-1 month changed');
@@ -153,31 +240,3 @@ $(document).ready( function() {
         }
     });
 });
-
-function includeHTML() {
-    var z, i, elmnt, file, xhttp;
-    /* Loop through a collection of all HTML elements: */
-    z = document.getElementsByTagName("*");
-    for (i = 0; i < z.length; i++) {
-      elmnt = z[i];
-      /*search for elements with a certain atrribute:*/
-      file = elmnt.getAttribute("w3-include-html");
-      if (file) {
-        /* Make an HTTP request using the attribute value as the file name: */
-        xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4) {
-            if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-            if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-            /* Remove the attribute, and call this function once more: */
-            elmnt.removeAttribute("w3-include-html");
-            includeHTML();
-          }
-        }
-        xhttp.open("GET", file, true);
-        xhttp.send();
-        /* Exit the function: */
-        return;
-      }
-    }
-  }

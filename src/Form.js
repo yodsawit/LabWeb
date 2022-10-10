@@ -22,6 +22,8 @@ function showSuccess(input){
 function checkPasswordMatch(input1, input2){
     if(input1.value !== input2.value){
         showError(input2,'Password does not Matched ')
+    }else{
+        showSuccess(input2)
     }
 }
 // check email is valid
